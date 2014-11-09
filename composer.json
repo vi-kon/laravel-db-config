@@ -1,6 +1,13 @@
 {
     "name"             : "vi-kon/laravel-db-config",
-    "description"      : "",
+    "description"      : "Laravel 5 database configurator",
+    "keywords"         : [
+        "laravel",
+        "database",
+        "config"
+    ],
+    "license"          : "MIT",
+    "homepage"         : "https://github.com/vi-kon/laravel-db-config",
     "authors"          : [
         {
             "name" : "Kovács Vince",
