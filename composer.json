@@ -15,6 +15,9 @@
         "psr-0": {
             "ViKon\\DbConfig": "src/"
         },
+        "psr-4": {
+            "ViKon\\DbConfig": "src/"
+        },
         "files": [
             "src/helpers.php"
         ]
