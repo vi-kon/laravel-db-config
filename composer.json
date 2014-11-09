@@ -13,10 +13,10 @@
     },
     "autoload"         : {
         "psr-0": {
-            "ViKon\\DbConfig": "src/"
+            "ViKon\\DbConfig\\": "src/"
         },
         "psr-4": {
-            "ViKon\\DbConfig": "src/"
+            "ViKon\\DbConfig\\": "src/"
         },
         "files": [
             "src/helpers.php"
