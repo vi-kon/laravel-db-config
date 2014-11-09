@@ -1,0 +1,20 @@
+{
+    "name": "vi-kon/laravel-db-config",
+    "description": "",
+    "authors": [
+        {
+            "name": "Kovács Vince",
+            "email": "vincekovacs@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "5.0.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "ViKon\\DbConfig": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
