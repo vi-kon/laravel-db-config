@@ -4,17 +4,12 @@ use Illuminate\Support\ServiceProvider;
 
 class DbConfigServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = true;
-
-    public function boot()
-    {
-    }
 
     /**
      * Register the service provider.
@@ -24,8 +19,6 @@ class DbConfigServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('ViKon\DbConfig\DbConfig', 'ViKon\DbConfig\DbConfig');
-
-        include_once __DIR__ . DIRECTORY_SEPARATOR . 'helper.php';
     }
 
     /**
