@@ -33,8 +33,8 @@ class DbConfig {
     /**
      * Set config value by key
      *
-     * @param string $key config key
-     * @param mixed $value config value
+     * @param string $key   config key
+     * @param mixed  $value config value
      *
      * @throws \ViKon\DbConfig\DbConfigException
      */
