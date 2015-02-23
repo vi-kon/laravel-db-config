@@ -3,7 +3,6 @@
 
 namespace ViKon\DbConfig;
 
-class DbConfigException extends \Exception
-{
+class DbConfigException extends \Exception {
 
 }

@@ -1,7 +1,6 @@
 <?php
 
-if (!function_exists('db_config'))
-{
+if (!function_exists('config_db')) {
     /**
      * Get config value by key
      *
@@ -10,8 +9,7 @@ if (!function_exists('db_config'))
      * @return mixed
      * @throws \ViKon\DbConfig\DbConfigException
      */
-    function db_config($key, $default = null)
-    {
-        return app('ViKon\DbConfig\DbConfig')->get($key, $default);
+    function config_db($key, $default = null) {
+        return app('config.db')->get($key, $default);
     }
 }
