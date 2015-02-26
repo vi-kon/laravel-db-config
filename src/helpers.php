@@ -5,7 +5,7 @@ if (!function_exists('config_db')) {
      * Get config value by key
      *
      * @param string $key config key
-     * @param null   $default
+     * @param mixed  $default
      *
      * @return mixed
      *

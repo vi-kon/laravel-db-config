@@ -17,6 +17,11 @@ class DbConfigServiceProvider extends ServiceProvider {
      */
     protected $defer = true;
 
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
     public function boot() {
         $this->publishes([
             __DIR__ . '/../../database/migrations/' => base_path('/database/migrations'),
