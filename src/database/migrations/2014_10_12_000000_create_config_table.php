@@ -3,6 +3,12 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
+/**
+ * Class CreateConfigTable
+ *
+ * @author  Kovács Vince <vincekovacs@hotmail.com>
+ *
+ */
 class CreateConfigTable extends Migration {
 
     /**

@@ -5,7 +5,11 @@ namespace ViKon\DbConfig\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * ViKon\DbConfig\Models\Config
+ * Class Config
+ *
+ * @author  Kovács Vince <vincekovacs@hotmail.com>
+ *
+ * @package ViKon\DbConfig\Models
  *
  * @property integer $id
  * @property string  $key
