@@ -3,6 +3,7 @@
 
 namespace ViKon\DbConfig;
 
+use Carbon\Carbon;
 use ViKon\DbConfig\Models\Config;
 
 /**
@@ -16,15 +17,15 @@ class DbConfig {
     /**
      * Get config value by key
      *
-     * @param string $key config key
+     * @param string $key     config key
+     * @param mixed  $default default value if config key not found in database
      *
      * @return mixed
-     * @throws \ViKon\DbConfig\DbConfigException
      */
-    public function get($key) {
+    public function get($key, $default = null) {
         $config = $this->getConfig($key);
         if ($config === null) {
-            throw new DbConfigException('Db config with ' . $key . ' not found');
+            return $default;
         }
 
         return $config->value;
@@ -39,7 +40,13 @@ class DbConfig {
      * @throws \ViKon\DbConfig\DbConfigException
      */
     public function set($key, $value) {
-        $config = $this->getConfig($key);
+        $config = $this->getConfig($key, true);
+
+        // If no user then modified_by is not modified !
+        if (\Auth::check()) {
+            $config->modified_by = \Auth::user()->id;
+        }
+        $config->modified_at = new Carbon();
         $config->value = $value;
         $config->save();
     }
@@ -58,24 +65,36 @@ class DbConfig {
     /**
      * Get config model by key
      *
-     * @param string $key config key
+     * @param string $key    config key
+     * @param bool   $create create config instance if not exists
      *
-     * @throws \ViKon\DbConfig\DbConfigException
-     * @return \ViKon\DbConfig\Models\Config|null
+     * @return null|\ViKon\DbConfig\Models\Config
      */
-    private function getConfig($key) {
-        if (strpos($key, '::') !== false) {
-            list($group, $key) = explode('::', $key, 2);
+    private function getConfig($key, $create = false) {
+        list($group, $key) = $this->splitKey($key);
+        $config = Config::where('group', $group)->where('key', $key)->first();
 
-            $config = Config::where('group', $group)->where('key', $key)->first();
-        } else {
-            $config = Config::where('key', $key)->first();
-        }
-
-        if ($config === null) {
-            throw new DbConfigException('Db config with ' . $key . ' not found');
+        if ($config === null && $create) {
+            $config = new Config();
+            $config->key = $key;
+            $config->group = $group;
         }
 
         return $config;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return string[]
+     */
+    private function splitKey($key) {
+        if (strpos($key, '::') !== false) {
+            list($group, $key) = explode('::', $key, 2);
+
+            return [$group, $key];
+        }
+
+        return [null, $key];
     }
 }
