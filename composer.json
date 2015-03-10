@@ -1,23 +1,33 @@
 {
-    "name"             : "vi-kon/laravel-db-config",
-    "description"      : "",
-    "authors"          : [
-        {
-            "name" : "Kovács Vince",
-            "email": "vincekovacs@hotmail.com"
-        }
-    ],
-    "require"          : {
-        "php"               : ">=5.4.0",
-        "illuminate/support": "5.0.*"
+  "name"             : "vi-kon/laravel-db-config",
+  "description"      : "Laravel 5 database configurator",
+  "keywords"         : [
+    "laravel",
+    "database",
+    "config"
+  ],
+  "license"          : "MIT",
+  "homepage"         : "https://github.com/vi-kon/laravel-db-config",
+  "authors"          : [
+    {
+      "name" : "Kovács Vince",
+      "email": "vincekovacs@hotmail.com"
+    }
+  ],
+  "require"          : {
+    "php"               : ">=5.4.0",
+    "illuminate/support": "5.0.*"
+  },
+  "autoload"         : {
+    "psr-0": {
+      "ViKon\\DbConfig\\": "src/"
     },
-    "autoload"         : {
-        "psr-0": {
-            "ViKon\\DbConfig": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+    "psr-4": {
+      "ViKon\\DbConfig\\": "src/"
     },
-    "minimum-stability": "stable"
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "minimum-stability": "stable"
 }
