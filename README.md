@@ -42,6 +42,16 @@ Optionally package have Facade file. Add following lines to `app.php`
 'DbConfig'  => 'ViKon\DbConfig\Facades\DbConfigFacade',
 ```
 
+To install database migration file simple call following commands:
+
+```bash
+php artisan vendor:publish
+
+php artisan migrate
+```
+
+This will install `create_config_table` migration file to application `database/migrations` directory and create new `config` table in default database.
+
 ---
 [Back to top][top]
 
