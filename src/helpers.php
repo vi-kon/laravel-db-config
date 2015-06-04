@@ -11,7 +11,8 @@ if (!function_exists('config_db')) {
      *
      * @throws \ViKon\DbConfig\DbConfigException
      */
-    function config_db($key = null, $default = null) {
+    function config_db($key = null, $default = null)
+    {
         if ($key === null) {
             return app('config.db');
         }

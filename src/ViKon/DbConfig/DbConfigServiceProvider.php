@@ -9,7 +9,8 @@ use Illuminate\Support\ServiceProvider;
  *
  * @package ViKon\DbConfig
  */
-class DbConfigServiceProvider extends ServiceProvider {
+class DbConfigServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -22,7 +23,8 @@ class DbConfigServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         $this->publishes([
             __DIR__ . '/../../database/migrations/' => base_path('/database/migrations'),
         ], 'migrations');
@@ -33,7 +35,8 @@ class DbConfigServiceProvider extends ServiceProvider {
      *
      * @return array
      */
-    public function provides() {
+    public function provides()
+    {
         return ['config.db'];
     }
 
@@ -42,7 +45,8 @@ class DbConfigServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         $this->app->singleton('config.db', 'ViKon\DbConfig\DbConfig');
     }
 }

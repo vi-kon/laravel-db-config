@@ -1,6 +1,5 @@
 <?php
 
-
 namespace ViKon\DbConfig;
 
 use Carbon\Carbon;
@@ -13,7 +12,8 @@ use ViKon\DbConfig\Models\Config;
  *
  * @package ViKon\DbConfig
  */
-class DbConfig {
+class DbConfig
+{
     /**
      * Get config value by key
      *
@@ -22,7 +22,8 @@ class DbConfig {
      *
      * @return mixed
      */
-    public function get($key, $default = null) {
+    public function get($key, $default = null)
+    {
         $config = $this->getConfig($key);
         if ($config === null) {
             return $default;
@@ -39,7 +40,8 @@ class DbConfig {
      *
      * @throws \ViKon\DbConfig\DbConfigException
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         $config = $this->getConfig($key, true);
 
         // If no user then modified_by is not modified !
@@ -47,7 +49,7 @@ class DbConfig {
             $config->modified_by = \Auth::user()->id;
         }
         $config->modified_at = new Carbon();
-        $config->value = $value;
+        $config->value       = $value;
         $config->save();
     }
 
@@ -58,7 +60,8 @@ class DbConfig {
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getConfigByGroup($group) {
+    public function getConfigByGroup($group)
+    {
         return Config::where('group', $group)->all();
     }
 
@@ -70,13 +73,14 @@ class DbConfig {
      *
      * @return null|\ViKon\DbConfig\Models\Config
      */
-    private function getConfig($key, $create = false) {
+    private function getConfig($key, $create = false)
+    {
         list($group, $key) = $this->splitKey($key);
         $config = Config::where('group', $group)->where('key', $key)->first();
 
         if ($config === null && $create) {
-            $config = new Config();
-            $config->key = $key;
+            $config        = new Config();
+            $config->key   = $key;
             $config->group = $group;
         }
 
@@ -88,7 +92,8 @@ class DbConfig {
      *
      * @return string[]
      */
-    private function splitKey($key) {
+    private function splitKey($key)
+    {
         if (strpos($key, '::') !== false) {
             list($group, $key) = explode('::', $key, 2);
 

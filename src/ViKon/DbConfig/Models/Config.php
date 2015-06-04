@@ -26,7 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereModifiedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereModifiedAt($value)
  */
-class Config extends Model {
+class Config extends Model
+{
     /**
      *
      * Disable updated_at and created_at columns
@@ -45,11 +46,13 @@ class Config extends Model {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function modifiedByUser() {
+    public function modifiedByUser()
+    {
         return $this->belongsTo(config('db-config::table.users'), 'id', 'modified_by_user_id');
     }
 
-    public function setValueAttribute($value) {
+    public function setValueAttribute($value)
+    {
         switch ($this->type) {
             case 'int':
                 $this->attributes['value'] = (string)$value;
@@ -63,7 +66,8 @@ class Config extends Model {
         }
     }
 
-    public function getValueAttribute($value) {
+    public function getValueAttribute($value)
+    {
         switch ($this->type) {
             case 'int':
                 return (int)$value;

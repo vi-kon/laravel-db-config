@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Facade;
  *
  * @package ViKon\DbConfig\Facades
  */
-class DbConfigFacade extends Facade {
+class DbConfigFacade extends Facade
+{
 
     /**
      * @return string
      */
-    protected static function getFacadeAccessor() {
+    protected static function getFacadeAccessor()
+    {
         return 'config.db';
     }
 }

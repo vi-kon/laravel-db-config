@@ -1,6 +1,5 @@
 <?php
 
-
 namespace ViKon\DbConfig;
 
 /**
@@ -10,6 +9,7 @@ namespace ViKon\DbConfig;
  *
  * @package ViKon\DbConfig
  */
-class DbConfigException extends \Exception {
+class DbConfigException extends \Exception
+{
 
 }

@@ -9,20 +9,22 @@ use Illuminate\Database\Schema\Blueprint;
  * @author  Kovács Vince <vincekovacs@hotmail.com>
  *
  */
-class CreateConfigTable extends Migration {
+class CreateConfigTable extends Migration
+{
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         \Schema::create('config', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->increments('id');
             $table->string('key')
-                ->unique();
+                  ->unique();
             $table->string('value');
             $table->string('group');
             $table->enum('type', ['int', 'bool', 'string']);
@@ -36,7 +38,8 @@ class CreateConfigTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         \Schema::drop('config');
     }
 }
