@@ -1,6 +1,6 @@
 <?php
 
-namespace ViKon\DbConfig\Models;
+namespace ViKon\DbConfig\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @author  Kovács Vince <vincekovacs@hotmail.com>
  *
- * @package ViKon\DbConfig\Models
+ * @package ViKon\DbConfig\Model
  *
  * @property integer $id
  * @property string  $key
@@ -18,13 +18,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string  $value
  * @property integer $modified_by
  * @property string  $modified_at
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereKey($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereGroup($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereValue($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereModifiedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Models\Config whereModifiedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereKey($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereGroup($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereValue($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereModifiedBy($value)
+ * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereModifiedAt($value)
  */
 class Config extends Model
 {

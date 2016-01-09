@@ -3,7 +3,7 @@
 namespace ViKon\DbConfig;
 
 use Carbon\Carbon;
-use ViKon\DbConfig\Models\Config;
+use ViKon\DbConfig\Model\Config;
 
 /**
  * Class DbConfig
@@ -71,7 +71,7 @@ class DbConfig
      * @param string $key    config key
      * @param bool   $create create config instance if not exists
      *
-     * @return null|\ViKon\DbConfig\Models\Config
+     * @return null|\ViKon\DbConfig\Model\Config
      */
     private function getConfig($key, $create = false)
     {
