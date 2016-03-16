@@ -18,13 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string  $value
  * @property integer $modified_by
  * @property string  $modified_at
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereKey($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereGroup($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereValue($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereModifiedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereModifiedAt($value)
  */
 class Config extends Model
 {
