@@ -35,17 +35,10 @@ In your Laravel 5 project add following lines to `app.php`:
 'ViKon\DbConfig\DbConfigServiceProvider',
 ```
 
-Optionally package have Facade file. Add following lines to `app.php`
-
-```php
-// to app.php's aliases array
-'DbConfig'  => 'ViKon\DbConfig\Facades\DbConfigFacade',
-```
-
 To install database migration file simple call following commands:
 
 ```bash
-php artisan vendor:publish
+php artisan vendor:publish --provider=ViKon\DbConfig\DbConfigServiceProvider
 
 php artisan migrate
 ```
