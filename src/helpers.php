@@ -7,8 +7,7 @@ if (!function_exists('config_db')) {
      * @param string|null $key config key
      * @param mixed       $default
      *
-     * @return mixed|\ViKon\DbConfig\DbConfig
-     *
+     * @return \ViKon\DbConfig\Repository|mixed
      */
     function config_db($key = null, $default = null)
     {
