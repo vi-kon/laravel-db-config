@@ -9,7 +9,6 @@ if (!function_exists('config_db')) {
      *
      * @return mixed|\ViKon\DbConfig\DbConfig
      *
-     * @throws \ViKon\DbConfig\DbConfigException
      */
     function config_db($key = null, $default = null)
     {

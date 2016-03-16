@@ -37,8 +37,6 @@ class DbConfig
      *
      * @param string $key   config key
      * @param mixed  $value config value
-     *
-     * @throws \ViKon\DbConfig\DbConfigException
      */
     public function set($key, $value)
     {
