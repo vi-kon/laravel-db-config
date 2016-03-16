@@ -23,13 +23,15 @@ class CreateConfigTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments('id');
-            $table->string('key')
-                  ->unique();
+            $table->string('namespace')
+                  ->default('');
+            $table->string('key');
             $table->string('value');
-            $table->string('group');
             $table->enum('type', ['int', 'bool', 'string']);
             $table->unsignedInteger('modified_by_user_id');
             $table->timestamp('modified_at');
+
+            $table->unique(['namespace', 'key']);
         });
     }
 

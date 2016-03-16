@@ -54,15 +54,17 @@ class DbConfig
     }
 
     /**
-     * Get config database values by group name
+     * Get config database values by namespace name
      *
-     * @param string $group group name
+     * @param string $namespace namespace name
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getConfigByGroup($group)
+    public function getConfigByNamespace($namespace)
     {
-        return Config::where('group', $group)->all();
+        return Config::query()
+                     ->where(Config::FIELD_NAMESPACE, $namespace)
+                     ->get();
     }
 
     /**
@@ -75,13 +77,17 @@ class DbConfig
      */
     private function getConfig($key, $create = false)
     {
-        list($group, $key) = $this->splitKey($key);
-        $config = Config::where('group', $group)->where('key', $key)->first();
+        list($namespace, $key) = $this->splitNamespaceAndKey($key);
+        $config = Config::query()
+                        ->where(Config::FIELD_NAMESPACE, $namespace)
+                        ->where(Config::FIELD_KEY, $key)
+                        ->first();
 
         if ($config === null && $create) {
-            $config        = new Config();
-            $config->key   = $key;
-            $config->group = $group;
+            $config            = new Config();
+            $config->namespace = $namespace;
+            $config->key       = $key;
+            $config->save();
         }
 
         return $config;
@@ -92,12 +98,12 @@ class DbConfig
      *
      * @return string[]
      */
-    private function splitKey($key)
+    private function splitNamespaceAndKey($key)
     {
         if (strpos($key, '::') !== false) {
-            list($group, $key) = explode('::', $key, 2);
+            list($namespace, $key) = explode('::', $key, 2);
 
-            return [$group, $key];
+            return [$namespace, $key];
         }
 
         return [null, $key];

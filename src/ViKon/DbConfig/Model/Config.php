@@ -12,15 +12,27 @@ use Illuminate\Database\Eloquent\Model;
  * @package ViKon\DbConfig\Model
  *
  * @property integer $id
+ * @property string  $namespace
  * @property string  $key
- * @property string  $group
  * @property string  $type
  * @property string  $value
+ * @property string  $default
  * @property integer $modified_by
  * @property string  $modified_at
  */
 class Config extends Model
 {
+    const TABLE_NAME = 'config';
+
+    const FIELD_ID          = 'id';
+    const FIELD_NAMESPACE   = 'namespace';
+    const FIELD_KEY         = 'key';
+    const FIELD_TYPE        = 'type';
+    const FIELD_VALUE       = 'value';
+    const FIELD_DEFAULT     = 'default';
+    const FIELD_MODIFIED_BY = 'modified_by';
+    const FIELD_MODIFIED_AT = 'modified_at';
+
     /**
      *
      * Disable updated_at and created_at columns
