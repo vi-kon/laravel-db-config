@@ -14,13 +14,6 @@ use ViKon\DbConfig\Model\Config;
 class DbConfigServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
      * Bootstrap the application events.
      *
      * @return void
