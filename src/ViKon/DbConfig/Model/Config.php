@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Config
  *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
- *
  * @package ViKon\DbConfig\Model
+ *
+ * @author  Kovács Vince <vincekovacs@hotmail.com>
  *
  * @property integer $id
  * @property string  $namespace
