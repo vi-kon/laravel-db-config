@@ -84,7 +84,7 @@ class Repository implements \ArrayAccess
 
         // If no user then modified_by is not modified !
         if ($guard->check()) {
-            $config->modified_by = $guard->id();
+            $config->modified_by_user_id = $guard->id();
         }
         $config->modified_at = new Carbon();
         $config->value       = $value;

@@ -17,21 +17,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property string  $type
  * @property string  $value
  * @property string  $default
- * @property integer $modified_by
+ * @property integer $modified_by_user_id
  * @property string  $modified_at
  */
 class Config extends Model
 {
     const TABLE_NAME = 'config';
 
-    const FIELD_ID          = 'id';
-    const FIELD_NAMESPACE   = 'namespace';
-    const FIELD_KEY         = 'key';
-    const FIELD_TYPE        = 'type';
-    const FIELD_VALUE       = 'value';
-    const FIELD_DEFAULT     = 'default';
-    const FIELD_MODIFIED_BY = 'modified_by';
-    const FIELD_MODIFIED_AT = 'modified_at';
+    const FIELD_ID                  = 'id';
+    const FIELD_NAMESPACE           = 'namespace';
+    const FIELD_KEY                 = 'key';
+    const FIELD_TYPE                = 'type';
+    const FIELD_VALUE               = 'value';
+    const FIELD_DEFAULT             = 'default';
+    const FIELD_MODIFIED_BY_USER_ID = 'modified_by_user_id';
+    const FIELD_MODIFIED_AT         = 'modified_at';
 
     /**
      *
