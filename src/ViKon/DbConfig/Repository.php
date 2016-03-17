@@ -4,6 +4,7 @@ namespace ViKon\DbConfig;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\Eloquent\Collection;
 use ViKon\DbConfig\Model\Config;
 
 /**
@@ -24,10 +25,10 @@ class Repository implements \ArrayAccess
     /**
      * Repository constructor.
      *
-     * @param \Illuminate\Contracts\Container\Container $container
-     * @param \ViKon\DbConfig\Model\Config[]            $models
+     * @param \Illuminate\Contracts\Container\Container                               $container
+     * @param \Illuminate\Database\Eloquent\Collection|\ViKon\DbConfig\Model\Config[] $models
      */
-    public function __construct(Container $container, array $models)
+    public function __construct(Container $container, Collection $models)
     {
         $this->container = $container;
 
