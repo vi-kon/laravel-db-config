@@ -143,7 +143,7 @@ class Repository implements \ArrayAccess
             return [$namespace, $key];
         }
 
-        return [null, $key];
+        return ['', $key];
     }
 
     /**
