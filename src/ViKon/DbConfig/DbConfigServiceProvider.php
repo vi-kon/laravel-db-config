@@ -1,6 +1,8 @@
 <?php namespace ViKon\DbConfig;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use ViKon\DbConfig\Model\Config;
 
 /**
  * Class DbConfigServiceProvider
@@ -12,13 +14,6 @@ use Illuminate\Support\ServiceProvider;
 class DbConfigServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -26,18 +21,8 @@ class DbConfigServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../database/migrations/' => base_path('/database/migrations'),
-        ], 'migrations');
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['config.db'];
+                             __DIR__ . '/../../database/migrations/' => base_path('/database/migrations'),
+                         ], 'migrations');
     }
 
     /**
@@ -47,6 +32,23 @@ class DbConfigServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('config.db', 'ViKon\DbConfig\DbConfig');
+        $this->app->singleton(Repository::class, function (Container $container) {
+            return new Repository($container, Config::all());
+        });
+
+        $this->app->alias(Repository::class, 'config.db');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            Repository::class,
+            'config.db',
+        ];
     }
 }

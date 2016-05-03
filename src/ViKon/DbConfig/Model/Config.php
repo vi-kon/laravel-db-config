@@ -7,27 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Config
  *
- * @author  Kovács Vince <vincekovacs@hotmail.com>
- *
  * @package ViKon\DbConfig\Model
  *
+ * @author  Kovács Vince <vincekovacs@hotmail.com>
+ *
  * @property integer $id
+ * @property string  $namespace
  * @property string  $key
- * @property string  $group
  * @property string  $type
  * @property string  $value
- * @property integer $modified_by
+ * @property string  $default
+ * @property integer $modified_by_user_id
  * @property string  $modified_at
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereKey($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereGroup($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereValue($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereModifiedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\ViKon\DbConfig\Model\Config whereModifiedAt($value)
  */
 class Config extends Model
 {
+    const TABLE_NAME = 'config';
+
+    const FIELD_ID                  = 'id';
+    const FIELD_NAMESPACE           = 'namespace';
+    const FIELD_KEY                 = 'key';
+    const FIELD_TYPE                = 'type';
+    const FIELD_VALUE               = 'value';
+    const FIELD_DEFAULT             = 'default';
+    const FIELD_MODIFIED_BY_USER_ID = 'modified_by_user_id';
+    const FIELD_MODIFIED_AT         = 'modified_at';
+
     /**
      *
      * Disable updated_at and created_at columns
