@@ -3,8 +3,10 @@
 namespace ViKon\DbConfig;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Database\Eloquent\Collection;
+use ViKon\DbConfig\Contract\Repository as DbConfigRepository;
 use ViKon\DbConfig\Model\Config;
 
 /**
@@ -14,56 +16,78 @@ use ViKon\DbConfig\Model\Config;
  *
  * @author  Kovács Vince <vincekovacs@hotmail.com>
  */
-class Repository implements \ArrayAccess
+class Repository implements \ArrayAccess, DbConfigRepository
 {
-    /** @type \Illuminate\Contracts\Container\Container */
-    protected $container;
+    /** @type \Illuminate\Contracts\Auth\Guard */
+    protected $guard;
 
-    /** @type \ViKon\DbConfig\Model\Config[][] */
-    protected $models = [];
+    /** @type \Illuminate\Contracts\Cache\Repository */
+    protected $cache;
+
+    /** @type \Illuminate\Database\Eloquent\Collection|\ViKon\DbConfig\Model\Config[] */
+    protected $models;
 
     /**
      * Repository constructor.
      *
-     * @param \Illuminate\Contracts\Container\Container                               $container
+     * @param \Illuminate\Contracts\Auth\Guard                                        $guard
+     * @param \Illuminate\Contracts\Cache\Repository                                  $cache
      * @param \Illuminate\Database\Eloquent\Collection|\ViKon\DbConfig\Model\Config[] $models
      */
-    public function __construct(Container $container, Collection $models)
+    public function __construct(Guard $guard, CacheRepository $cache, Collection $models = null)
     {
-        $this->container = $container;
+        $this->guard  = $guard;
+        $this->cache  = $cache;
+        $this->models = new Collection();
 
-        // Sort models by namespace and keys
-        foreach ($models as $model) {
-            if (!array_key_exists($model->namespace, $this->models)) {
-                $this->models[$model->namespace] = [];
+        if ($models !== null) {
+            // Sort models by namespace and keys
+            foreach ($models as $model) {
+                $key                = $model->namespace . '::' . $model->key;
+                $this->models[$key] = $model;
+
+                // Update cache entries
+                $this->cache->forever($key, $model->value);
             }
-
-            $this->models[$model->namespace][$model->key] = $model;
         }
     }
 
     /**
-     * Check if config value exists or not
-     *
-     * @param string $key
-     *
-     * @return bool
+     * {@inheritDoc}
      */
-    public function has($key)
+    public function create($key, $type, $value = null)
     {
-        return $this->getModel($key) !== null;
+        list($namespace, $key) = $this->splitNamespaceAndKey($key);
+
+        $config            = new Config();
+        $config->namespace = $namespace;
+        $config->key       = $key;
+        $config->type      = $type;
+        $config->value     = $value;
+        $config->save();
+
+        $this->cache->forever($namespace . '::' . $key, $value);
+
+        return $this;
     }
 
     /**
-     * Get config value by key
-     *
-     * @param string $key     config key
-     * @param mixed  $default default value if config key not found in database
-     *
-     * @return mixed
+     * {@inheritDoc}
+     */
+    public function has($key)
+    {
+        return $this->cache->has($key) || $this->getModel($key) !== null;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function get($key, $default = null)
     {
+        if ($this->cache->has($key)) {
+            return $this->cache->get($key);
+        }
+
         if ($this->has($key)) {
             return $this->getModel($key)->value;
         }
@@ -72,78 +96,24 @@ class Repository implements \ArrayAccess
     }
 
     /**
-     * Set config value by key
-     *
-     * @param string $key   config key
-     * @param mixed  $value config value
+     * {@inheritDoc}
      */
     public function set($key, $value)
     {
-        $guard = $this->container->make('auth')->guard();
-
-        $config = $this->getModel($key, true);
+        $config = $this->getModel($key);
 
         // If no user then modified_by is not modified !
-        if ($guard->check()) {
-            $config->modified_by_user_id = $guard->id();
+        if ($this->guard->check()) {
+            $config->modified_by_user_id = $this->guard->id();
         }
         $config->modified_at = new Carbon();
         $config->value       = $value;
         $config->save();
-    }
 
-    /**
-     * Get config model by key
-     *
-     * Note: This method only create config, but not save it!
-     *
-     * @param string $key    config key
-     * @param bool   $create create config instance if not exists
-     *
-     * @return \ViKon\DbConfig\Model\Config|null return NULL if model is not found and create parameter is set to FALSE
-     */
-    private function getModel($key, $create = false)
-    {
-        list($namespace, $key) = $this->splitNamespaceAndKey($key);
+        // Update cache
+        $this->cache->forever($key, $config->value);
 
-        if (array_key_exists($namespace, $this->models) && array_key_exists($key, $this->models[$namespace])) {
-            return $this->models[$namespace][$key];
-        }
-
-        $model = Config::query()
-                       ->where(Config::FIELD_NAMESPACE, $namespace)
-                       ->where(Config::FIELD_KEY, $key)
-                       ->first();
-
-        if ($model === null && $create) {
-            $model            = new Config();
-            $model->namespace = $namespace;
-            $model->key       = $key;
-        }
-
-        if (!array_key_exists($namespace, $this->models)) {
-            $this->models[$namespace] = [];
-        }
-
-        $this->models[$namespace][$key] = $model;
-
-        return $model;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return string[]
-     */
-    private function splitNamespaceAndKey($key)
-    {
-        if (strpos($key, '::') !== false) {
-            list($namespace, $key) = explode('::', $key, 2);
-
-            return [$namespace, $key];
-        }
-
-        return ['', $key];
+        return $this;
     }
 
     /**
@@ -178,5 +148,47 @@ class Repository implements \ArrayAccess
         if ($this->has($offset)) {
             $this->set($offset, null);
         }
+    }
+
+    /**
+     * Get config model by key
+     *
+     * @param string $key config key
+     *
+     * @return \ViKon\DbConfig\Model\Config|null return NULL if model was not found in database
+     */
+    protected function getModel($key)
+    {
+        if (!array_key_exists($key, $this->models)) {
+            list($namespace, $key) = $this->splitNamespaceAndKey($key);
+
+            $this->models[$key] = Config::query()
+                                        ->where(Config::FIELD_NAMESPACE, $namespace)
+                                        ->where(Config::FIELD_KEY, $key)
+                                        ->first();
+
+            // Cache if data is found in database
+            if ($this->models[$key] !== null) {
+                $this->cache->forever($key, $this->models[$key]->value);
+            }
+        }
+
+        return $this->models[$key];
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return string[]
+     */
+    protected function splitNamespaceAndKey($key)
+    {
+        if (strpos($key, '::') !== false) {
+            list($namespace, $key) = explode('::', $key, 2);
+
+            return [$namespace, $key];
+        }
+
+        return ['', $key];
     }
 }
